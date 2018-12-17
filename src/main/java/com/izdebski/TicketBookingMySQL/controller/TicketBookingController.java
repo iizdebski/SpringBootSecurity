@@ -12,35 +12,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-    @RestController
-    @RequestMapping(value="/api/tickets")
-    public class TicketBookingController {
+@RestController
+@RequestMapping(value="/api")
+public class TicketBookingController {
 
-        @Autowired
-        private TicketBookingService ticketBookingService;
+    @Autowired
+    private TicketBookingService ticketBookingService;
 
-        @PostMapping(value="/create")
-        public Ticket createTicket(@RequestBody Ticket ticket){
-            return ticketBookingService.createTicket(ticket);
-        }
+    @PostMapping(value="/admin/create")
+    public Ticket createTicket(@RequestBody Ticket ticket){
+        return ticketBookingService.createTicket(ticket);
+    }
 
-        @GetMapping(value="/ticket/{ticketId}")
-        //@RequestMapping(value="/ticket/{ticketId}")
-        public Ticket getTicketById(@PathVariable("ticketId")Integer ticketId){
-            return ticketBookingService.getTicketById(ticketId);
-        }
-        @GetMapping(value="/ticket/alltickets")
-        public Iterable<Ticket> getAllBookedTickets(){
-            return ticketBookingService.getAllBookedTickets();
-        }
+    @GetMapping(value="/tickets/ticketId/{ticketId}")
+    public Ticket getTicketById(@PathVariable("ticketId")Integer ticketId){
+        return ticketBookingService.getTicketById(ticketId);
+    }
+    @GetMapping(value="/tickets/alltickets")
+    public Iterable<Ticket> getAllBookedTickets(){
+        return ticketBookingService.getAllBookedTickets();
+    }
 
-        @DeleteMapping(value="/ticket/{ticketId}")
-        public void deleteTicket(@PathVariable("ticketId")Integer ticketId){
-            ticketBookingService.deleteTicket(ticketId);
-        }
+    @DeleteMapping(value="/admin/ticketId/{ticketId}")
+    public void deleteTicketById(@PathVariable("ticketId")Integer ticketId){
+        ticketBookingService.deleteTicket(ticketId);
+    }
 
-        @PutMapping(value="/ticket/{ticketId}/{newEmail:.+}")
-        public Ticket updateTicket(@PathVariable("ticketId")Integer ticketId,@PathVariable("newEmail")String newEmail){
-            return ticketBookingService.updateTicket(ticketId,newEmail);
-        }
+    @PutMapping(value="/admin/ticketId/{ticketId}/email/{newEmail:.+}")
+    public Ticket updateTicketByIdAndEmail(@PathVariable("ticketId")Integer ticketId,@PathVariable("newEmail")String newEmail){
+        return ticketBookingService.updateTicket(ticketId,newEmail);
+    }
 }
